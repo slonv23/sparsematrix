@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="C8iemR" name="SparseMatrix" projectType="consoleapp" useAppConfig="0"
+              addUsingNamespaceToJuceHeader="0" displaySplashScreen="1" jucerFormatVersion="1">
+  <MAINGROUP id="o0Qgb5" name="SparseMatrix">
+    <GROUP id="{1D25F7A7-5E69-5970-16AC-E06DD76DA948}" name="Source">
+      <FILE id="hngdjA" name="catch.h" compile="0" resource="0" file="Source/catch.h"/>
+      <FILE id="uwHdae" name="SparseMatrix.h" compile="0" resource="0" file="Source/SparseMatrix.h"/>
+      <FILE id="r4O5JT" name="test.cpp" compile="1" resource="0" file="Source/test.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_dsp" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+  </MODULES>
+  <JUCEOPTIONS JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+  <EXPORTFORMATS>
+    <VS2022 targetFolder="Builds/VisualStudio2022" externalLibraries="catch2.lib">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ConstantQ" libraryPath="F:\PG\ConstantQ"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ConstantQ" libraryPath="F:\PG\ConstantQ"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_dsp" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>
+      </MODULEPATHS>
+    </VS2022>
+  </EXPORTFORMATS>
+</JUCERPROJECT>
