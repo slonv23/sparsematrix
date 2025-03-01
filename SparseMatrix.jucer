@@ -21,8 +21,8 @@
   <EXPORTFORMATS>
     <VS2022 targetFolder="Builds/VisualStudio2022" externalLibraries="catch2.lib">
       <CONFIGURATIONS>
-        <CONFIGURATION isDebug="1" name="Debug" targetName="ConstantQ" libraryPath="F:\PG\ConstantQ"/>
-        <CONFIGURATION isDebug="0" name="Release" targetName="ConstantQ" libraryPath="F:\PG\ConstantQ"/>
+        <CONFIGURATION isDebug="1" name="Debug" targetName="ConstantQ" libraryPath="F:\PG\SparseMatrix"/>
+        <CONFIGURATION isDebug="0" name="Release" targetName="ConstantQ" libraryPath="F:\PG\SparseMatrix"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="../JUICE/juce-7.0.11-windows/JUCE/modules"/>

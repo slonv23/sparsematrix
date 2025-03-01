@@ -21,9 +21,9 @@
 
 struct Entry {
   unsigned colIndex;
-  std::complex<double> value;
+  std::complex<float> value;
 
-  Entry(unsigned col, std::complex<double> val) : colIndex(col), value(val) {}
+  Entry(unsigned col, std::complex<float> val) : colIndex(col), value(val) {}
 };
 
 class SparseMatrixOfComplexNumbersBuilder;
@@ -33,11 +33,18 @@ class SparseMatrixOfComplexNumbers {
   friend class SparseMatrixOfComplexNumbersBuilder;
 
 public:
-  unsigned size() { return entries.size(); }
-  double getTolerance() { return tolerance; }
-  bool shouldAcceptValue(std::complex<double> value) { return std::abs(value) > tolerance; }
+  SparseMatrixOfComplexNumbers() {
+    rowsCount = 0;
+    colsCount = 0;
+    elementsCount = 0;
+    tolerance = 0.0;
+  }
 
-  std::optional<std::reference_wrapper<std::complex<double>>> getEntry(unsigned row, unsigned col) {
+  unsigned size() { return entries.size(); }
+  float getTolerance() { return tolerance; }
+  bool shouldAcceptValue(std::complex<float> value) { return std::abs(value) > tolerance; }
+
+  std::optional<std::reference_wrapper<std::complex<float>>> getEntry(unsigned row, unsigned col) {
     if (row >= rowsCount) {
       throw std::invalid_argument("Invalid row");
     }
@@ -81,6 +88,26 @@ public:
 
   unsigned getColsCount() { return colsCount; }
 
+  void flipColumns() {
+    // Process each row and flip column indices
+    for (unsigned row = 0; row < rowsCount; ++row) {
+      auto start = rowIndexes[row];
+      auto end = rowIndexes[row + 1];
+
+      // Flip columns for this row
+      std::vector<Entry> rowEntries;
+      for (auto i = start; i < start + (end - start) / 2; ++i) {
+        auto swapWith = end - 1 - (i - start);
+        auto buff = entries[i];
+        entries[i] = entries[swapWith];
+        entries[swapWith] = buff;
+
+        entries[swapWith].colIndex = entries[i].colIndex;
+        entries[i].colIndex = buff.colIndex;
+      }
+    }
+  }
+
 private:
   unsigned rowsCount;
   unsigned colsCount;
@@ -89,10 +116,10 @@ private:
   std::vector<Entry> entries;
   std::vector<unsigned> rowIndexes;
 
-  double tolerance;
+  float tolerance;
 
   // needed for the builder
-  SparseMatrixOfComplexNumbers(unsigned _rowsCount, unsigned _colsCount, double _tolerance = 1e-9)
+  SparseMatrixOfComplexNumbers(unsigned _rowsCount, unsigned _colsCount, float _tolerance = 1e-9)
       : tolerance(_tolerance), rowsCount(_rowsCount), colsCount(_colsCount), elementsCount(_rowsCount * _colsCount) {
     rowIndexes.reserve(_rowsCount + 1);
   }
@@ -118,10 +145,10 @@ private:
   }
 
 public:
-  SparseMatrixOfComplexNumbersBuilder(unsigned rowsCount, unsigned colsCount, double tolerance = 1e-9)
+  SparseMatrixOfComplexNumbersBuilder(unsigned rowsCount, unsigned colsCount, float tolerance = 1e-9)
       : matrix(rowsCount, colsCount, tolerance) {}
 
-  void startNextRow() {
+  void addRow() {
     if (matrix.rowIndexes.size() >= matrix.rowsCount) {
       throw std::logic_error("Cannot start a new row after the last row. All rows are inserted.");
     }
@@ -130,7 +157,7 @@ public:
     matrix.rowIndexes.push_back(matrix.entries.size());
   }
 
-  void addOrSkipNextEntry(unsigned colIndex, std::complex<double> value) {
+  void addOrSkipEntry(unsigned colIndex, std::complex<float> value) {
     validateColIndex(colIndex);
 
     if (matrix.shouldAcceptValue(value)) {

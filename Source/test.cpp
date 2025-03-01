@@ -22,13 +22,13 @@ TEST_CASE("Using builder", "[builder]") {
   auto el3 = std::complex<double>(3.0, 0.0);
   auto el4 = std::complex<double>(4.0, 0.0);
 
-  builder.startNextRow();
-  builder.addOrSkipNextEntry(0, el1);
-  builder.addOrSkipNextEntry(1, el2);
+  builder.addRow();
+  builder.addOrSkipEntry(0, el1);
+  builder.addOrSkipEntry(1, el2);
 
-  builder.startNextRow();
-  builder.addOrSkipNextEntry(0, el3);
-  builder.addOrSkipNextEntry(1, el4);
+  builder.addRow();
+  builder.addOrSkipEntry(0, el3);
+  builder.addOrSkipEntry(1, el4);
 
   SparseMatrixOfComplexNumbers matrix = builder.getResult();
 
@@ -64,4 +64,29 @@ TEST_CASE("Using builder", "[builder]") {
 
   it++;
   REQUIRE(it == endIt);
+}
+
+TEST_CASE("Flip columns", "[util]") {
+  SparseMatrixOfComplexNumbersBuilder builder{2, 2};
+
+  auto el1 = std::complex<double>(1.0, 0.0);
+  auto el2 = std::complex<double>(2.0, 0.0);
+  auto el3 = std::complex<double>(3.0, 0.0);
+  auto el4 = std::complex<double>(4.0, 0.0);
+
+  builder.addRow();
+  builder.addOrSkipEntry(0, el1);
+  builder.addOrSkipEntry(1, el2);
+
+  builder.addRow();
+  builder.addOrSkipEntry(0, el3);
+  builder.addOrSkipEntry(1, el4);
+
+  SparseMatrixOfComplexNumbers matrix = builder.getResult();
+  matrix.flipColumns();
+
+  REQUIRE(matrix.getEntry(0, 0).value().get() == el2);
+  REQUIRE(matrix.getEntry(0, 1).value().get() == el1);
+  REQUIRE(matrix.getEntry(1, 0).value().get() == el4);
+  REQUIRE(matrix.getEntry(1, 1).value().get() == el3);
 }
